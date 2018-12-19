@@ -2,6 +2,7 @@
 var gulp = require( 'gulp' ),
     sass = require( 'gulp-sass' ),
     sourcemaps = require( 'gulp-sourcemaps' ),
+    cssnano = require( 'gulp-cssnano' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -16,6 +17,7 @@ gulp .task( 'style', ( done ) => {
         }))           
         .pipe( sass() )                       /* Procesamos los archivos Sass a CSS */
             .on( 'error', sass .logError )    /* Captura los eventos (en este caso el evento 'error') */
+        .pipe( cssnano() )                     /* Minificación de archivos CSS */
         .pipe( sourcemaps .write( './maps' ) )   /* Escribe los mapas de archivo de Sass */
         .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
     done();
