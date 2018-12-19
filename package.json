@@ -1,0 +1,14 @@
+{
+  "name": "curso-gulp",
+  "version": "1.0.0",
+  "description": "Gulp y herramientas de automatización",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "gulp"
+  ],
+  "author": "Juan Carlos Jiménez Gutiérrez <jcjimenez29@misena.edu.co> (https://twitter.com/Jce_)",
+  "license": "ISC"
+}
