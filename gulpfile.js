@@ -11,6 +11,7 @@ var gulp = require( 'gulp' ),
 gulp .task( 'style', ( done ) => {
     gulp .src( path .scss + '/*.scss' )       /* Indicamos archivos para procesar */
         .pipe( sass() )                       /* Procesamos los archivos Sass a CSS */
+            .on( 'error', sass .logError )    /* Captura los eventos (en este caso el evento 'error') */
         .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
     done();
 });

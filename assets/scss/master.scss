@@ -8,6 +8,7 @@ body {
 
 .wrap {
     margin: 0 auto;
+    color: $color;      /* ERROR: Variable sin definir */
 }
 
 h1 {
