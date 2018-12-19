@@ -11,10 +11,12 @@ var gulp = require( 'gulp' ),
 /* Task 'style' */    
 gulp .task( 'style', ( done ) => {
     gulp .src( path .scss + '/*.scss' )       /* Indicamos archivos para procesar */
-        .pipe( sourcemaps .init() )           /* Inicializa la dependencia 'sourcemaps' para empezar a guardar mapas de archivo de Sass */
+        .pipe( sourcemaps .init( {            /* Inicializa la dependencia 'sourcemaps' para empezar a guardar mapas de archivo de Sass */
+            loadMaps: true                    /* Carga mapas de archivo de Sass existentes */
+        }))           
         .pipe( sass() )                       /* Procesamos los archivos Sass a CSS */
             .on( 'error', sass .logError )    /* Captura los eventos (en este caso el evento 'error') */
-        .pipe( sourcemaps .write() )          /* Escribe los mapas de archivo de Sass */
+        .pipe( sourcemaps .write( './maps' ) )   /* Escribe los mapas de archivo de Sass */
         .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
     done();
 });
