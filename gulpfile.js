@@ -1,7 +1,6 @@
 /* Invocamos/Importamos las dependencias que necesitamos */
 var gulp = require( 'gulp' ),
     sass = require( 'gulp-sass' ),
-    watch = require( 'gulp-watch' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -18,8 +17,6 @@ gulp .task( 'style', ( done ) => {
 });
 /* Task 'watch' */    
 gulp .task( 'watch', ( done ) => {
-    watch( path .scss + '/**/*.scss', () => {   /* Observa cambios en la ruta asignada (** Patrón goblin) */
-        gulp .start( 'style' );                 /* Inicia las tareas que se le indiquen (en este caso 'style') */
-    });       
+    gulp .watch( path .scss + '/**/*.scss', gulp .series( 'style' ) );   /* Observa cambios en la ruta asignada (** Patrón goblin) */
     done();
 });
