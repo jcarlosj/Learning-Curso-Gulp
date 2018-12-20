@@ -1,8 +1,8 @@
-// main.js
-let firstTest = first_test();
+/* main.js */
+var firstTest = first_test();
 
 if( firstTest == undefined  ) {
-    var secodTest = function() {
+    var secondTest = function() {
         return firstTest;
-    }
-}
+    };
+};

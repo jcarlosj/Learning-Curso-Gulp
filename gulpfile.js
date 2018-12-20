@@ -6,6 +6,7 @@ var gulp = require( 'gulp' ),
     argv = require( 'yargs' ) .argv,
     gulpif = require( 'gulp-if' ),
     concat = require( 'gulp-concat' ),
+    uglify = require( 'gulp-uglify' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -33,7 +34,6 @@ gulp .task( 'style', ( done ) => {
         .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
     done();
 });
-
 /* Task 'concat' */
 gulp .task( 'concat', ( done ) => {
     gulp .src([                               /* Array de archivos para procesar (En el orden que se pongan se van a concatenar) */
@@ -41,10 +41,18 @@ gulp .task( 'concat', ( done ) => {
         path .js + '/main.js',
         path .js + '/end.js'
     ])
-    .pipe( concat( 'master.js' ) )           /* Función para concatenar archivos (nombre del archivo final) */
-    .pipe( gulp .dest( path .js ) );          /* Indicamos el destino de los archivos procesados */
+        .pipe( concat( 'master.js' ) )        /* Función para concatenar archivos (nombre del archivo final) */
+        .pipe( gulp .dest( path .js ) );      /* Indicamos el destino de los archivos procesados */
     done();
-}); 
+});
+/* Task 'compress' */ 
+gulp .task( 'compress', ( done ) => {
+    gulp .src( path .js + '/master.js' )      /* Indicamos el archivo a procesar */
+        .pipe( uglify() )
+            .on( 'error', console .error .bind( console ) )     /* Captura los eventos (en este caso el evento 'error') para que se impriman en la consola */
+        .pipe( gulp .dest( path .js + '/min' ) );               /* Indicamos el destino de los archivos procesados */
+    done();
+});
 /* Task 'watch' */    
 gulp .task( 'watch', ( done ) => {
     gulp .watch( path .scss + '/**/*.scss', gulp .series( 'style' ) );   /* Observa cambios en la ruta asignada (** Patrón goblin) */

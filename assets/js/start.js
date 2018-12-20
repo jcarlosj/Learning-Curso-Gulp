@@ -1,4 +1,4 @@
-// start.js
+/* start.js */
 'use strict'
 
 function first_test() {
