@@ -24,7 +24,7 @@ else {
 
 /* Task 'style' */    
 gulp .task( 'style', ( done ) => {
-    gulp .src( path .scss + '/*.scss' )       /* Indicamos archivos para procesar */
+    return gulp .src( path .scss + '/*.scss' )       /* Indicamos archivos para procesar */
         .pipe( sourcemaps .init( {            /* Inicializa la dependencia 'sourcemaps' para empezar a guardar mapas de archivo de Sass */
             loadMaps: true                    /* Carga mapas de archivo de Sass existentes */
         }))           
@@ -36,7 +36,7 @@ gulp .task( 'style', ( done ) => {
 });
 /* Task 'concat' */
 gulp .task( 'concat', ( done ) => {
-    gulp .src([                               /* Array de archivos para procesar (En el orden que se pongan se van a concatenar) */
+    return gulp .src([                               /* Array de archivos para procesar (En el orden que se pongan se van a concatenar) */
         path .js + '/start.js',
         path .js + '/main.js',
         path .js + '/end.js'
@@ -46,8 +46,8 @@ gulp .task( 'concat', ( done ) => {
     done();
 });
 /* Task 'compress' */ 
-gulp .task( 'compress', ( done ) => {
-    gulp .src( path .js + '/master.js' )      /* Indicamos el archivo a procesar */
+gulp .task( 'compress', gulp .series( [ 'concat' ] ), ( done ) => {
+    return gulp .src( path .js + '/master.js' )      /* Indicamos el archivo a procesar */
         .pipe( uglify() )
             .on( 'error', console .error .bind( console ) )     /* Captura los eventos (en este caso el evento 'error') para que se impriman en la consola */
         .pipe( gulp .dest( path .js + '/min' ) );               /* Indicamos el destino de los archivos procesados */
