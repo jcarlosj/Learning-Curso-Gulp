@@ -3,11 +3,20 @@ var gulp = require( 'gulp' ),
     sass = require( 'gulp-sass' ),
     sourcemaps = require( 'gulp-sourcemaps' ),
     cssnano = require( 'gulp-cssnano' ),
+    argv = require( 'yargs' ) .argv,
     /* Configuración */ 
     path = {
         scss: './assets/scss',
         css: './assets/css'
-    };
+    },
+    isProduction;
+/* Valida si el proyecto está en Desarrollo (o Producción) */
+if( argv .prod ) {
+    isProduction = true;
+}
+else {
+    isProduction = false;
+}
 
 /* Task 'style' */    
 gulp .task( 'style', ( done ) => {
@@ -25,5 +34,6 @@ gulp .task( 'style', ( done ) => {
 /* Task 'watch' */    
 gulp .task( 'watch', ( done ) => {
     gulp .watch( path .scss + '/**/*.scss', gulp .series( 'style' ) );   /* Observa cambios en la ruta asignada (** Patrón goblin) */
+    console .log( '>> Production:', isProduction );
     done();
 });
