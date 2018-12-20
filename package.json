@@ -11,7 +11,7 @@
   ],
   "author": "Juan Carlos Jiménez Gutiérrez <jcjimenez29@misena.edu.co> (https://twitter.com/Jce_)",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-cssnano": "^2.1.3",
     "gulp-sass": "^4.0.2",
