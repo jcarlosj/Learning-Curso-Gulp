@@ -5,10 +5,12 @@ var gulp = require( 'gulp' ),
     cssnano = require( 'gulp-cssnano' ),
     argv = require( 'yargs' ) .argv,
     gulpif = require( 'gulp-if' ),
+    concat = require( 'gulp-concat' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
-        css: './assets/css'
+        css: './assets/css',
+        js: './assets/js'
     },
     isProduction;
 /* Valida si el proyecto está en Desarrollo (o Producción) */
@@ -31,6 +33,18 @@ gulp .task( 'style', ( done ) => {
         .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
     done();
 });
+
+/* Task 'concat' */
+gulp .task( 'concat', ( done ) => {
+    gulp .src([                               /* Array de archivos para procesar (En el orden que se pongan se van a concatenar) */
+        path .js + '/start.js',
+        path .js + '/main.js',
+        path .js + '/end.js'
+    ])
+    .pipe( concat( 'master.js' ) )           /* Función para concatenar archivos (nombre del archivo final) */
+    .pipe( gulp .dest( path .js ) );          /* Indicamos el destino de los archivos procesados */
+    done();
+}); 
 /* Task 'watch' */    
 gulp .task( 'watch', ( done ) => {
     gulp .watch( path .scss + '/**/*.scss', gulp .series( 'style' ) );   /* Observa cambios en la ruta asignada (** Patrón goblin) */
