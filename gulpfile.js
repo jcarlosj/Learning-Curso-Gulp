@@ -27,8 +27,7 @@ gulp .task( 'style', ( done ) => {
         }))           
         .pipe( sass() )                       /* Procesamos los archivos Sass a CSS */
             .on( 'error', sass .logError )    /* Captura los eventos (en este caso el evento 'error') */
-        .pipe( gulpif( isProduction, cssnano() ) )                     /* Minificación de archivos CSS condicionada a si el proyecto es lanzado para producción usando el flag --prod */
-        .pipe( sourcemaps .write( './maps' ) )   /* Escribe los mapas de archivo de Sass */
+        .pipe( gulpif( isProduction, cssnano(), sourcemaps .write( './maps' ) ) )                     /* Minificación de archivos CSS condicionada a SI el proyecto es lanzado para producción usando el flag --prod minifica el CSS, SI NO: Entonces escribe los mapas de archivo de Sass*/
         .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
     done();
 });
