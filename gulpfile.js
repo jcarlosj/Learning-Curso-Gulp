@@ -57,7 +57,11 @@ gulp .task( 'compress', gulp .series( [ 'concat' ] ), ( done ) => {
 });
 /* Task 'imagemin' */ 
 gulp .task( 'imagemin', ( done ) => {
-    return gulp .src( path .img + '/*.{jpg,jpeg,png}' )     /* Indicamos los archivos a procesar. En este caso solo las extensiones jpg, jpeg y png usando globs */             
+    return gulp .src([ 
+        path .img + '/*.{jpg,jpeg,png}',        /* Indicamos los archivos a procesar. En este caso solo las extensiones jpg, jpeg y png usando globs */
+        '!' + path .img + '/full-stack.jpeg',   /* Archivo excluido por la tarea usando el glob ! (Símbolo de exclamación) */
+        '!' + path .img + '/productos/'         /* Directorio excluido por la tarea usando el glob ! (Símbolo de exclamación) */
+    ])                                      
         .pipe( imagemin() )                          /* Función para minificar imagenes: PNG, JPG, GIF y SVG */
         .pipe( gulp .dest( path .img + '/*' ) )      /* Indicamos el destino de los archivos procesados */
     done();
