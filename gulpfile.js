@@ -7,11 +7,13 @@ var gulp = require( 'gulp' ),
     gulpif = require( 'gulp-if' ),
     concat = require( 'gulp-concat' ),
     uglify = require( 'gulp-uglify' ),
+    imagemin = require( 'gulp-imagemin' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
         css: './assets/css',
-        js: './assets/js'
+        js: './assets/js',
+        img: './assets/img'
     },
     isProduction;
 /* Valida si el proyecto está en Desarrollo (o Producción) */
@@ -51,6 +53,13 @@ gulp .task( 'compress', gulp .series( [ 'concat' ] ), ( done ) => {
         .pipe( uglify() )
             .on( 'error', console .error .bind( console ) )     /* Captura los eventos (en este caso el evento 'error') para que se impriman en la consola */
         .pipe( gulp .dest( path .js + '/min' ) );               /* Indicamos el destino de los archivos procesados */
+    done();
+});
+/* Task 'imagemin' */ 
+gulp .task( 'imagemin', ( done ) => {
+    return gulp .src( path .img + '/*' )             /* Indicamos los archivos a procesar */
+        .pipe( imagemin() )                          /* Función para minificar imagenes: PNG, JPG, GIF y SVG */
+        .pipe( gulp .dest( path .img + '/*' ) )      /* Indicamos el destino de los archivos procesados */
     done();
 });
 /* Task 'watch' */    
