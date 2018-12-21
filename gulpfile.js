@@ -57,7 +57,11 @@ gulp .task( 'compress', gulp .series( [ 'concat' ] ), ( done ) => {
 });
 /* Task 'imagemin' */ 
 gulp .task( 'imagemin', ( done ) => {
-    return gulp .src( path .img + '/*' )             /* Indicamos los archivos a procesar */
+    return gulp .src([      /* Indicamos los archivos a procesar. En este caso solo las extensiones png y jpg */
+        path .img + '/*.jpg', 
+        path .img + '/*.jpeg', 
+        path .img + '/*.png' 
+    ])             
         .pipe( imagemin() )                          /* Función para minificar imagenes: PNG, JPG, GIF y SVG */
         .pipe( gulp .dest( path .img + '/*' ) )      /* Indicamos el destino de los archivos procesados */
     done();
