@@ -8,6 +8,7 @@ var gulp = require( 'gulp' ),
     concat = require( 'gulp-concat' ),
     uglify = require( 'gulp-uglify' ),
     imagemin = require( 'gulp-imagemin' ),
+    del = require( 'del' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -64,6 +65,12 @@ gulp .task( 'imagemin', ( done ) => {
     ])                                      
         .pipe( imagemin() )                          /* Función para minificar imagenes: PNG, JPG, GIF y SVG */
         .pipe( gulp .dest( path .img + '/*' ) )      /* Indicamos el destino de los archivos procesados */
+    done();
+});
+/* Task 'cleanup' */    
+gulp .task( 'cleanup', ( done ) => {
+    del( path .css + '/maps/*' );       /* Elimina todos los archivos del directorio maps (gracias al 'glob' * ) */
+    del( path .css + '/maps/' );        /* Elimina el directorio 'maps' */
     done();
 });
 /* Task 'watch' */    
