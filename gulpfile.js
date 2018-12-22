@@ -85,6 +85,11 @@ gulp .task( 'browserify', ( done ) => {
                 .pipe( gulp .dest( path .js + '/min' ) );   /* Indicamos el destino de los archivos procesados */
     done();
 });
+/* Task 'js-sync': Se recomienda hacerlo de esta manera ya que no es recomendable inyectar JavaScript en los navegadores */ 
+gulp .task( 'js-sync', ( done ) => {
+    sync .reload();        /* Recarga el/los navegadores */
+    done();
+});
 /* Task 'browsersync' */ 
 gulp .task( 'browsersync', ( done ) => {
     /* Configuración */
@@ -98,7 +103,8 @@ gulp .task( 'browsersync', ( done ) => {
     /* Observa por cambios en los archivos HTML */
     gulp .watch( './*.html' )
          .on( 'change', sync .reload );       /* Captura los eventos (en este caso el evento 'change') para el/los navegadores se recarguen */
-    gulp. watch( path .scss + '/**/*.scss', gulp .series( 'style' ) ); /* Observa cambios en la ruta asignada (Gracias a sync.stream aqui inyectamos el CSS al navegador) */
+    gulp. watch( path .scss + '/**/*.scss', gulp .series( 'style' ) ); /* Observa cambios en la ruta asignada (Gracias a sync.stream aqui inyectamos el CSS al navegador) y ejecuta la tarea 'styles' si observa cambios */
+    gulp .watch( path .js + '/*.js', gulp .series( 'js-sync' ) );      /* Observa cambios en la ruta asignada y ejecuta la tarea 'js-sync' si observa cambios */
     done();
 });
 /* Task 'watch' */    
