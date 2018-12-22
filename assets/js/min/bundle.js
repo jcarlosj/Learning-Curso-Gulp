@@ -9,16 +9,22 @@ let data = [ 1, 2 ,2 ,3 ,4 ,5 ,5, 5, 6 ];
 console .log( unique( data ) );
 
 var item = 3,
-    y = start( item );
+    y = start .a( item );
 console .log( 'item(', item, '):', y );
 },{"./start":2,"uniq":3}],2:[function(require,module,exports){
 /* start.js */
 'use strict'
 
 /* Usando module.exports es como 'browserify' nos permite importar archivos de la misma manera que lo hace NodeJS */
-module .exports = function ( x ) {
-    x = x + 1;
-    return x;
+module .exports = {         /* Convertimos en un objeto */
+    a: function ( x ){      /* Declaramos una nueva función */
+        x = x + 1;
+        return x;
+    },
+    b: function( x ) {
+        x = x - 1;
+        return x;
+    }
 }
 },{}],3:[function(require,module,exports){
 "use strict"
