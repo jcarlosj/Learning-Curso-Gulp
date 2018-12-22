@@ -9,6 +9,8 @@ var gulp = require( 'gulp' ),
     uglify = require( 'gulp-uglify' ),
     imagemin = require( 'gulp-imagemin' ),
     del = require( 'del' ),
+    browserify = require( 'browserify' ),
+    transform = require( 'vinyl-source-stream' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -64,13 +66,21 @@ gulp .task( 'imagemin', ( done ) => {
         '!' + path .img + '/productos/'         /* Directorio excluido por la tarea usando el glob ! (Símbolo de exclamación) */
     ])                                      
         .pipe( imagemin() )                          /* Función para minificar imagenes: PNG, JPG, GIF y SVG */
-        .pipe( gulp .dest( path .img + '/*' ) )      /* Indicamos el destino de los archivos procesados */
+        .pipe( gulp .dest( path .img + '/*' ) );     /* Indicamos el destino de los archivos procesados */
     done();
 });
 /* Task 'cleanup' */    
 gulp .task( 'cleanup', ( done ) => {
     del( path .css + '/maps/*' );       /* Elimina todos los archivos del directorio maps (gracias al 'glob' * ) */
     del( path .css + '/maps/' );        /* Elimina el directorio 'maps' */
+    done();
+});
+/* Task 'browserify' */    
+gulp .task( 'browserify', ( done ) => {
+    return browserify( path .js + '/src/master.js' )        /* La salida de 'browserify' es un string */
+                .bundle()                                   /* Concatena todos los paquetes que se han solicitado */
+                .pipe( transform( 'bundle.js' ) )           /* Convierte la salida de 'browserify' en un archivo y le asigna un nombre */
+                .pipe( gulp .dest( path .js + '/min' ) );   /* Indicamos el destino de los archivos procesados */
     done();
 });
 /* Task 'watch' */    
