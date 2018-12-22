@@ -11,6 +11,7 @@ var gulp = require( 'gulp' ),
     del = require( 'del' ),
     browserify = require( 'browserify' ),
     transform = require( 'vinyl-source-stream' ),
+    sync = require( 'browser-sync' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -81,6 +82,21 @@ gulp .task( 'browserify', ( done ) => {
                 .bundle()                                   /* Concatena todos los paquetes que se han solicitado */
                 .pipe( transform( 'bundle.js' ) )           /* Convierte la salida de 'browserify' en un archivo y le asigna un nombre */
                 .pipe( gulp .dest( path .js + '/min' ) );   /* Indicamos el destino de los archivos procesados */
+    done();
+});
+/* Task 'browsersync' */ 
+gulp .task( 'browsersync', ( done ) => {
+    /* Configuración */
+    sync .init({        /* Inicializa el servidor de 'BrowserSync' */
+        proxy: '',      /* Genera un servidor a partir de un servidor local existente, se puede especificar aquí (Ej: dominio.local ) */
+        server: {       /* Genera un servidor local estático */
+            baseDir: './',                             /* Ruta donde se encuentran los archivos estáticos */
+            browser: [ 'firefox', 'google-chrome' ]    /* Sincronización de los navegadores donde se desea lanzar el servidor */
+        }      
+    }); 
+    /* Observa por cambios en los archivos HTML */
+    gulp .watch( './*.html' )
+         .on( 'change', sync .reload );       /* Captura los eventos (en este caso el evento 'change') para el/los navegadores se recarguen */
     done();
 });
 /* Task 'watch' */    
