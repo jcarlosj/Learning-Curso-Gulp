@@ -37,7 +37,8 @@ gulp .task( 'style', ( done ) => {
         .pipe( sass() )                       /* Procesamos los archivos Sass a CSS */
             .on( 'error', sass .logError )    /* Captura los eventos (en este caso el evento 'error') */
         .pipe( gulpif( isProduction, cssnano(), sourcemaps .write( './maps' ) ) )                     /* Minificación de archivos CSS condicionada a SI el proyecto es lanzado para producción usando el flag --prod minifica el CSS, SI NO: Entonces escribe los mapas de archivo de Sass*/
-        .pipe( gulp .dest( path .css ) );     /* Indicamos el destino de los archivos procesados */
+        .pipe( gulp .dest( path .css ) )      /* Indicamos el destino de los archivos procesados */
+        .pipe( sync .stream() );              /* Genera un flujo o string de datos que va a sincronizar para poder inyectar los cambios de archivos Sass en el navegador */
     done();
 });
 /* Task 'concat' */
@@ -97,6 +98,7 @@ gulp .task( 'browsersync', ( done ) => {
     /* Observa por cambios en los archivos HTML */
     gulp .watch( './*.html' )
          .on( 'change', sync .reload );       /* Captura los eventos (en este caso el evento 'change') para el/los navegadores se recarguen */
+    gulp. watch( path .scss + '/**/*.scss', gulp .series( 'style' ) ); /* Observa cambios en la ruta asignada (Gracias a sync.stream aqui inyectamos el CSS al navegador) */
     done();
 });
 /* Task 'watch' */    
