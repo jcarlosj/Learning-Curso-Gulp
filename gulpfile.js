@@ -12,6 +12,7 @@ var gulp = require( 'gulp' ),
     browserify = require( 'browserify' ),
     transform = require( 'vinyl-source-stream' ),
     sync = require( 'browser-sync' ),
+    once = require( 'async-once' ),
     /* Configuración */ 
     path = {
         scss: './assets/scss',
@@ -53,13 +54,13 @@ gulp .task( 'concat', ( done ) => {
     done();
 });
 /* Task 'compress' */ 
-gulp .task( 'compress', gulp .series( [ 'concat' ] ), ( done ) => {
+gulp .task( 'compress', gulp .series( 'concat', ( done ) => {
     return gulp .src( path .js + '/master.js' )      /* Indicamos el archivo a procesar */
         .pipe( uglify() )
             .on( 'error', console .error .bind( console ) )     /* Captura los eventos (en este caso el evento 'error') para que se impriman en la consola */
         .pipe( gulp .dest( path .js + '/min' ) );               /* Indicamos el destino de los archivos procesados */
     done();
-});
+}));
 /* Task 'imagemin' */ 
 gulp .task( 'imagemin', ( done ) => {
     return gulp .src([ 
@@ -86,12 +87,12 @@ gulp .task( 'browserify', ( done ) => {
     done();
 });
 /* Task 'js-sync': Se recomienda hacerlo de esta manera ya que no es recomendable inyectar JavaScript en los navegadores */ 
-gulp .task( 'js-sync', ( done ) => {
+gulp .task( 'js-sync', once( gulp .series( 'compress', ( done ) => {
     sync .reload();        /* Recarga el/los navegadores */
     done();
-});
+})));
 /* Task 'browsersync' */ 
-gulp .task( 'browsersync', ( done ) => {
+gulp .task( 'browsersync', gulp .series( 'style', 'compress', ( done ) => {
     /* Configuración */
     sync .init({        /* Inicializa el servidor de 'BrowserSync' */
         proxy: '',      /* Genera un servidor a partir de un servidor local existente, se puede especificar aquí (Ej: dominio.local ) */
@@ -106,10 +107,10 @@ gulp .task( 'browsersync', ( done ) => {
     gulp. watch( path .scss + '/**/*.scss', gulp .series( 'style' ) ); /* Observa cambios en la ruta asignada (Gracias a sync.stream aqui inyectamos el CSS al navegador) y ejecuta la tarea 'styles' si observa cambios */
     gulp .watch( path .js + '/*.js', gulp .series( 'js-sync' ) );      /* Observa cambios en la ruta asignada y ejecuta la tarea 'js-sync' si observa cambios */
     done();
-});
+}));
 /* Task 'watch' */    
-gulp .task( 'watch', ( done ) => {
-    gulp .watch( path .scss + '/**/*.scss', gulp .series( 'style' ) );   /* Observa cambios en la ruta asignada (** Patrón goblin) */
-    console .log( '>> Production:', isProduction );
-    done();
-});
+//gulp .task( 'watch', ( done ) => {
+//   gulp .watch( path .scss + '/**/*.scss', gulp .series( 'style' ) );   /* Observa cambios en la ruta asignada (** Patrón goblin) */
+//    console .log( '>> Production:', isProduction );
+//    done();
+//});

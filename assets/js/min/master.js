@@ -1,1 +1,1 @@
-"use strict";function first_test(){return"Esto es una prueba!"}var firstTest=first_test();if(null==firstTest)var secondTest=function(){return firstTest};var square=function(t){return t*t};
+"use strict";function first_test(){return"Esto es una prueba!"}alert("Bienvenido al curso de Gulp 3.x!");var firstTest=first_test();if(null==firstTest)var secondTest=function(){return firstTest};var square=function(t){return t*t};
